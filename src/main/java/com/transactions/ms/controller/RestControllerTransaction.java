@@ -14,10 +14,11 @@ import com.transactions.ms.model.CurrentEntity;
 import com.transactions.ms.model.EntityBusinessCredit;
 import com.transactions.ms.model.EntityCreditCard;
 import com.transactions.ms.model.EntityCreditPersonal;
+import com.transactions.ms.model.EntityDTO;
 import com.transactions.ms.model.EntityTransaction;
 import com.transactions.ms.model.FixedTermEntity;
 import com.transactions.ms.model.SavingEntity;
-import com.transactions.ms.service.TransactionServiceImpl;
+import com.transactions.ms.service.ITransactionService;
 import com.transactions.ms.webclient.CallWebClient;
 
 import reactor.core.publisher.Flux;
@@ -28,8 +29,9 @@ import reactor.core.publisher.Mono;
 public class RestControllerTransaction {
 
 	@Autowired
-	TransactionServiceImpl impl;
+	ITransactionService impl;
 	
+	EntityDTO dto = new EntityDTO();
 	 
 	CallWebClient callWeb = new CallWebClient();
 	
@@ -61,6 +63,14 @@ public class RestControllerTransaction {
 	}
 	
 	
+	@GetMapping("/getProductosByNumDoc/{numDoc}")
+	Mono<EntityDTO> getProductos(@PathVariable String numDoc){
+		
+		return callWeb.getSavingByNumDoc(numDoc);
+	
+	
+	}
+	
 	
 	@PostMapping("/transactionSaving")
 	Mono<SavingEntity> transactionSaving(@RequestBody EntityTransaction transaction){
@@ -73,7 +83,6 @@ public class RestControllerTransaction {
 				 transaction.setCashA(p.getCash() + transaction.getCashO());
 			}
 				 transaction.setCashT(p.getCash());
-				 transaction.setDniC(p.getDniCli());
 				 transaction.setNumAcc(p.getNumAcc());
 				 transaction.setDateTra(dt);
 				 impl.saveTransaction(transaction).subscribe();
@@ -93,7 +102,7 @@ public class RestControllerTransaction {
 			}
 			
 				 transaction.setCashT(p.getCash());
-				 transaction.setDniC(p.getDniCli());
+				
 				 transaction.setNumAcc(p.getNumAcc());
 				 transaction.setDateTra(dt);
 				 impl.saveTransaction(transaction).subscribe();

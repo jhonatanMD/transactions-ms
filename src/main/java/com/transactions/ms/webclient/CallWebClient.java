@@ -8,6 +8,7 @@ import com.transactions.ms.model.CurrentEntity;
 import com.transactions.ms.model.EntityBusinessCredit;
 import com.transactions.ms.model.EntityCreditCard;
 import com.transactions.ms.model.EntityCreditPersonal;
+import com.transactions.ms.model.EntityDTO;
 import com.transactions.ms.model.FixedTermEntity;
 import com.transactions.ms.model.SavingEntity;
 
@@ -18,8 +19,8 @@ public class CallWebClient {
 	
 	  WebClient client = WebClient.builder().baseUrl("http://localhost:8881")
 			  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
-	  
-	  public Mono<SavingEntity> getSaving(String dniC , String type,Double cash){
+
+	   public Mono<SavingEntity> getSaving(String dniC , String type,Double cash){
 		  
 		return  client.post().uri("/saving-account/api/updTransancionSaving/"+dniC+"/"+type+"/"+cash)
 			.retrieve().bodyToMono(SavingEntity.class);	
@@ -54,4 +55,49 @@ public class CallWebClient {
 			return  client.post().uri("/personal-credit/api/updTransancionesCreditPersonal/"+dniC+"/"+type+"/"+cash)
 				.retrieve().bodyToMono(EntityCreditPersonal.class);	
 		  }
+	  
+	  
+	  
+	  EntityDTO dto;
+	  public Mono<EntityDTO> getSavingByNumDoc(String numDoc){
+		  
+		  dto = new EntityDTO();
+		  
+			return  client.get().uri("/saving-account/api/getSavingDocu/"+numDoc)
+				.retrieve().bodyToMono(SavingEntity.class).flatMap(p -> {
+				dto.setSavingEntity(p);
+				return Mono.just(dto);
+				}).switchIfEmpty(Mono.just(dto)).flatMap(p->{
+					
+					return  client.get().uri("/current-account/api/getCurrentNumDoc/"+numDoc)
+							.retrieve().bodyToFlux(CurrentEntity.class).collectList()
+							.flatMap(current -> {
+							dto.setCurrentEntity(current);
+							
+							return Mono.just(dto);
+							
+				}).switchIfEmpty(Mono.just(dto)).flatMap(p2->{
+					
+					return  client.get().uri("/fixed-term/api/getFixedNumDoc/"+numDoc)
+							.retrieve().bodyToMono(FixedTermEntity.class).flatMap(fixed -> {
+							dto.setFixedTermEntity(fixed);
+							return Mono.just(dto);
+							});
+					
+						}).switchIfEmpty(Mono.just(dto));
+					
+					});
+	  }
+
+	  public Mono<EntityCreditPersonal> getCreditPersonalByNumDoc(String numDoc){
+		  
+			return  client.post().uri("/personal-credit/api/updTransancionesCreditPersonal/"+numDoc)
+				.retrieve().bodyToMono(EntityCreditPersonal.class);	
+		  }
+	  
+	  
+	  
+	  
+	  
+	  
 }

@@ -1,5 +1,9 @@
 package com.transactions.ms.model;
 
+import java.util.List;
+
+
+
 public class SavingEntity {
 	
 
@@ -9,8 +13,9 @@ public class SavingEntity {
 	
 	private Double cash;
 	
-	private String dniCli;
+	private List<HeadLineEntity> heads;
 	
+	private List<SignatoriesEntity> sigs;
 	
 	public String getCodSav() {
 		return codSav;
@@ -36,31 +41,21 @@ public class SavingEntity {
 		this.cash = cash;
 	}
 
-
-	public String getDniCli() {
-		return dniCli;
+	public List<HeadLineEntity> getHeads() {
+		return heads;
 	}
 
-	public void setDniCli(String dniCli) {
-		this.dniCli = dniCli;
+	public void setHeads(List<HeadLineEntity> heads) {
+		this.heads = heads;
+	}
+
+	public List<SignatoriesEntity> getSigs() {
+		return sigs;
+	}
+
+	public void setSigs(List<SignatoriesEntity> sigs) {
+		this.sigs = sigs;
 	}
 
 
-
-
-
-
-	
-	//private Flux<String> firm;
-
-
-
-/*	public Flux<String> getFirm() {
-		return firm;
-	}
-
-	public void setFirm(Flux<String> firm) {
-		this.firm = firm;
-	}
-	*/
 }
