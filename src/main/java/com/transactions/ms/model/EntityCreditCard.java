@@ -1,24 +1,17 @@
 package com.transactions.ms.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-
-
-
 public class EntityCreditCard {
 
-	@Id
+
 	private String codCur;
 	
-	private String numAcc;
+	private String numCard;
 	
 	private Double cash;
 	
-	private String dniCli;
+	private Double cashLimit;
 	
-
-
+	private HeadLineEntity  customer;
 
 	public String getCodCur() {
 		return codCur;
@@ -28,12 +21,12 @@ public class EntityCreditCard {
 		this.codCur = codCur;
 	}
 
-	public String getNumAcc() {
-		return numAcc;
+	public String getNumCard() {
+		return numCard;
 	}
 
-	public void setNumAcc(String numAcc) {
-		this.numAcc = numAcc;
+	public void setNumCard(String numCard) {
+		this.numCard = numCard;
 	}
 
 	public Double getCash() {
@@ -44,16 +37,24 @@ public class EntityCreditCard {
 		this.cash = cash;
 	}
 
-	public String getDniCli() {
-		return dniCli;
+	public Double getCashLimit() {
+		return cashLimit;
 	}
 
-	public void setDniCli(String dniCli) {
-		this.dniCli = dniCli;
+	public void setCashLimit(Double cashLimit) {
+		this.cashLimit = cashLimit;
+	}
+
+	public HeadLineEntity getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(HeadLineEntity customer) {
+		this.customer = customer;
 	}
 
 
-	
+
 
 
 }

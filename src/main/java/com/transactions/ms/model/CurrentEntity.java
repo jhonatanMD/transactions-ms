@@ -9,10 +9,18 @@ public class CurrentEntity {
 	private String numAcc;
 	
 	private Double cash;
-
+	
 	private String typeCli;
 	
 	private String profile;
+	
+	private Double cashEndMonth;
+	
+	private int numTran;
+	
+	private Double commi;
+	
+	private String status;
 	
 	private List<HeadLineEntity> heads;
 	
@@ -72,6 +80,38 @@ public class CurrentEntity {
 
 	public void setSigs(List<SignatoriesEntity> sigs) {
 		this.sigs = sigs;
+	}
+
+	public Double getCashEndMonth() {
+		return cashEndMonth;
+	}
+
+	public void setCashEndMonth(Double cashEndMonth) {
+		this.cashEndMonth = cashEndMonth;
+	}
+
+	public int getNumTran() {
+		return numTran;
+	}
+
+	public void setNumTran(int numTran) {
+		this.numTran = numTran;
+	}
+
+	public Double getCommi() {
+		return commi;
+	}
+
+	public void setCommi(Double commi) {
+		this.commi = commi;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 

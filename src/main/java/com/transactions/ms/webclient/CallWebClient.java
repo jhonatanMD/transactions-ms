@@ -1,17 +1,23 @@
 package com.transactions.ms.webclient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.transactions.ms.model.CommissionEntity;
 import com.transactions.ms.model.CurrentEntity;
 import com.transactions.ms.model.EntityBusinessCredit;
 import com.transactions.ms.model.EntityCreditCard;
 import com.transactions.ms.model.EntityCreditPersonal;
 import com.transactions.ms.model.EntityDTO;
+import com.transactions.ms.model.EntityTransaction;
 import com.transactions.ms.model.FixedTermEntity;
 import com.transactions.ms.model.SavingEntity;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
@@ -19,6 +25,9 @@ public class CallWebClient {
 	
 	  WebClient client = WebClient.builder().baseUrl("http://localhost:8881")
 			  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
+	  
+	  EntityDTO dto;
+	  CommissionEntity commission;
 
 	   public Mono<SavingEntity> getSaving(String dniC , String type,Double cash){
 		  
@@ -58,13 +67,13 @@ public class CallWebClient {
 	  
 	  
 	  
-	  EntityDTO dto;
-	  public Mono<EntityDTO> getSavingByNumDoc(String numDoc){
+	
+	  public Mono<EntityDTO> getProductosByNumDoc(String numDoc){
 		  
 		  dto = new EntityDTO();
 		  
 			return  client.get().uri("/saving-account/api/getSavingDocu/"+numDoc)
-				.retrieve().bodyToMono(SavingEntity.class).flatMap(p -> {
+				.retrieve().bodyToFlux(SavingEntity.class).collectList().flatMap(p -> {
 				dto.setSavingEntity(p);
 				return Mono.just(dto);
 				}).switchIfEmpty(Mono.just(dto)).flatMap(p->{
@@ -79,14 +88,38 @@ public class CallWebClient {
 				}).switchIfEmpty(Mono.just(dto)).flatMap(p2->{
 					
 					return  client.get().uri("/fixed-term/api/getFixedNumDoc/"+numDoc)
-							.retrieve().bodyToMono(FixedTermEntity.class).flatMap(fixed -> {
+							.retrieve().bodyToFlux(FixedTermEntity.class).collectList().flatMap(fixed -> {
 							dto.setFixedTermEntity(fixed);
 							return Mono.just(dto);
 							});
 					
-						}).switchIfEmpty(Mono.just(dto));
+						}).switchIfEmpty(Mono.just(dto)).flatMap(p3->{
+							
+							return  client.get().uri("/credit-card/api/getCreditCardNumDoc/"+numDoc)
+									.retrieve().bodyToFlux(EntityCreditCard.class).collectList().flatMap(card -> {
+									dto.setCreditCardEntity(card);
+									return Mono.just(dto);
+									});
+							
+								}).switchIfEmpty(Mono.just(dto)).flatMap(p4->{
+									
+									return  client.get().uri("/personal-credit/api/getCreditPersonalNumDoc/"+numDoc)
+											.retrieve().bodyToFlux(EntityCreditPersonal.class).collectList().flatMap(creditPer -> {
+											dto.setCreditPersonalEntity(creditPer);
+											return Mono.just(dto);
+											});
+									
+										}).switchIfEmpty(Mono.just(dto)).flatMap(p5->{
+											
+											return  client.get().uri("/business-credit/api/getBusinessCrediDoc/"+numDoc)
+													.retrieve().bodyToFlux(EntityBusinessCredit.class).collectList().flatMap(creditBusi -> {
+													dto.setBusinessCreditEntity(creditBusi);
+													return Mono.just(dto);
+													});
+											
+												}).switchIfEmpty(Mono.just(dto));
 					
-					});
+					});		
 	  }
 
 	  public Mono<EntityCreditPersonal> getCreditPersonalByNumDoc(String numDoc){
@@ -97,7 +130,14 @@ public class CallWebClient {
 	  
 	  
 	  
-	  
-	  
+	  public Mono<CommissionEntity> getCommissions(String from , String until ){
+		  
+		  commission = new CommissionEntity();
+		  return client.get().uri("/credit-card/api/getSavingDate/"+from)
+					.retrieve().bodyToFlux(EntityTransaction.class).collectList().flatMap(card -> {
+					commission.setCommissions(card);
+					return Mono.just(commission);
+					});
+	  }
 	  
 }

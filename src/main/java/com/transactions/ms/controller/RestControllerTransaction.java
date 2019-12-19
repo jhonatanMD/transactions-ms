@@ -10,18 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.transactions.ms.model.CurrentEntity;
-import com.transactions.ms.model.EntityBusinessCredit;
-import com.transactions.ms.model.EntityCreditCard;
-import com.transactions.ms.model.EntityCreditPersonal;
 import com.transactions.ms.model.EntityDTO;
 import com.transactions.ms.model.EntityTransaction;
-import com.transactions.ms.model.FixedTermEntity;
 import com.transactions.ms.model.SavingEntity;
 import com.transactions.ms.service.ITransactionService;
 import com.transactions.ms.webclient.CallWebClient;
 
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -31,11 +25,42 @@ public class RestControllerTransaction {
 	@Autowired
 	ITransactionService impl;
 	
-	EntityDTO dto = new EntityDTO();
 	 
 	CallWebClient callWeb = new CallWebClient();
 	
 	
+	
+
+	
+	@GetMapping("/getProductosByNumDoc/{numDoc}")
+	Mono<EntityDTO> getProductos(@PathVariable String numDoc){
+		
+		return callWeb.getProductosByNumDoc(numDoc);
+	
+	
+	}
+	
+	@PostMapping("/transactionSaving/{num}/{type}/{cash}")
+	Mono<SavingEntity> transactionSaving(@RequestBody EntityTransaction transaction){
+		Date dt = new Date();
+		return  callWeb.getSaving(transaction.getNumAcc(),transaction.getType(), transaction.getCashO()).flatMap(p ->{
+			
+			if(transaction.getType().equals("d")) {
+				 transaction.setCashA(p.getCash() - transaction.getCashO());
+				 
+			}else if(transaction.getType().equals("r")) {
+				 transaction.setCashA(p.getCash() + transaction.getCashO());
+			}
+				 transaction.setCashT(p.getCash());
+				 transaction.setNumAcc(p.getNumAcc());
+				 transaction.setDateTra(dt);
+				 impl.saveTransaction(transaction).subscribe();
+				 return Mono.just(p);
+		});
+	}
+	
+	/*
+	 * 
 	@GetMapping("/getTransactions")
 	Flux<EntityTransaction> getTransaction(){
 				
@@ -56,6 +81,7 @@ public class RestControllerTransaction {
 		return impl.transacctionNumC(numC);
 	}
 	
+	
 	@PostMapping("/transaction")
 	Mono<EntityTransaction> transaction(@RequestBody EntityTransaction transaction){
 				
@@ -63,32 +89,6 @@ public class RestControllerTransaction {
 	}
 	
 	
-	@GetMapping("/getProductosByNumDoc/{numDoc}")
-	Mono<EntityDTO> getProductos(@PathVariable String numDoc){
-		
-		return callWeb.getSavingByNumDoc(numDoc);
-	
-	
-	}
-	
-	
-	@PostMapping("/transactionSaving")
-	Mono<SavingEntity> transactionSaving(@RequestBody EntityTransaction transaction){
-		Date dt = new Date();
-		return  callWeb.getSaving(transaction.getDniC(),transaction.getType(), transaction.getCashO()).flatMap(p ->{
-				
-			if(transaction.getType().equals("d")) {
-				 transaction.setCashA(p.getCash() - transaction.getCashO());
-			}else if(transaction.getType().equals("r")) {
-				 transaction.setCashA(p.getCash() + transaction.getCashO());
-			}
-				 transaction.setCashT(p.getCash());
-				 transaction.setNumAcc(p.getNumAcc());
-				 transaction.setDateTra(dt);
-				 impl.saveTransaction(transaction).subscribe();
-				 return Mono.just(p);
-		});
-	}
 	
 	@PostMapping("/transactionCurrent")
 	Mono<CurrentEntity> transactionCurrent(@RequestBody EntityTransaction transaction){
@@ -122,8 +122,8 @@ public class RestControllerTransaction {
 			}
 			
 				 transaction.setCashT(p.getCash());
-				 transaction.setDniC(p.getDniCli());
-				 transaction.setNumAcc(p.getNumAcc());
+		//		 transaction.setDniC(p.getDniCli());
+			//	 transaction.setNumAcc(p.getNumAcc());
 				 transaction.setDateTra(dt);
 				 impl.saveTransaction(transaction).subscribe();
 				 return Mono.just(p);
@@ -142,7 +142,7 @@ public class RestControllerTransaction {
 			}
 			
 				 transaction.setCashT(p.getCash());
-				 transaction.setDniC(p.getDniCli());
+			//	 transaction.setDniC(p.getDniCli());
 				 transaction.setNumAcc(p.getNumAcc());
 				 transaction.setDateTra(dt);
 				 impl.saveTransaction(transaction).subscribe();
@@ -162,7 +162,7 @@ public class RestControllerTransaction {
 			}
 			
 				 transaction.setCashT(p.getCash());
-				 transaction.setDniC(p.getDniCli());
+				// transaction.setDniC(p.getDniCli());
 				 transaction.setNumAcc(p.getNumAcc());
 				 transaction.setDateTra(dt);
 				 impl.saveTransaction(transaction).subscribe();
@@ -182,7 +182,7 @@ public class RestControllerTransaction {
 			}
 			
 				 transaction.setCashT(p.getCash());
-				 transaction.setDniC(p.getDocCli());
+			//	 transaction.setDniC(p.getDocCli());
 				 transaction.setNumAcc(p.getNumAcc());
 				 transaction.setDateTra(dt);
 				 impl.saveTransaction(transaction).subscribe();
@@ -190,6 +190,6 @@ public class RestControllerTransaction {
 		});
 	}
 	
-
+*/
 	
 }

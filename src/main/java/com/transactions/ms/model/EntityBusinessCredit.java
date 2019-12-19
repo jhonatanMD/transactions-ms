@@ -1,7 +1,6 @@
 package com.transactions.ms.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 
 public class EntityBusinessCredit {
@@ -11,8 +10,6 @@ public class EntityBusinessCredit {
 	private String numAcc;
 	
 	private Double cash;
-	
-	private String docCli;
 	
 
 	
@@ -42,15 +39,6 @@ public class EntityBusinessCredit {
 		this.cash = cash;
 	}
 
-
-
-	public String getDocCli() {
-		return docCli;
-	}
-
-	public void setDocCli(String docCli) {
-		this.docCli = docCli;
-	}
 
 
 

@@ -19,10 +19,7 @@ public class EntityTransaction {
 	
 	@NotEmpty(message = "should not be empty")
 	private String numAcc;
-	
-	@NotEmpty(message = "should not be empty")
-	private String dniC;
-	
+
 	
 	@NotEmpty(message = "should not be empty")
 	private Double cashO;
@@ -36,11 +33,12 @@ public class EntityTransaction {
 	@NotEmpty(message = "should not be empty")
 	private String type;
 	
-
+	private Double commi;
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = Shape.STRING)
+	@JsonFormat(pattern = "yyyy-MM-dd", shape = Shape.STRING)
 	@NotNull
 	private Date dateTra;
+
 
 	
 	public String getIdTra() {
@@ -58,15 +56,6 @@ public class EntityTransaction {
 	public void setNumAcc(String numAcc) {
 		this.numAcc = numAcc;
 	}
-
-	public String getDniC() {
-		return dniC;
-	}
-
-	public void setDniC(String dniC) {
-		this.dniC = dniC;
-	}
-
 
 	public Double getCashO() {
 		return cashO;
@@ -102,6 +91,14 @@ public class EntityTransaction {
 
 	
 	
+	public Double getCommi() {
+		return commi;
+	}
+
+	public void setCommi(Double commi) {
+		this.commi = commi;
+	}
+
 	public Date getDateTra() {
 		return dateTra;
 	}

@@ -13,6 +13,8 @@ public class SavingEntity {
 	
 	private Double cash;
 	
+	private Double commi;
+	
 	private List<HeadLineEntity> heads;
 	
 	private List<SignatoriesEntity> sigs;
@@ -39,6 +41,15 @@ public class SavingEntity {
 
 	public void setCash(Double cash) {
 		this.cash = cash;
+	}
+
+	
+	public Double getCommi() {
+		return commi;
+	}
+
+	public void setCommi(Double commi) {
+		this.commi = commi;
 	}
 
 	public List<HeadLineEntity> getHeads() {

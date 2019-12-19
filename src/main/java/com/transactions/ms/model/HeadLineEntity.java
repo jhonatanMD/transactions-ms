@@ -1,34 +1,17 @@
 package com.transactions.ms.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "HeadLines")
 public class HeadLineEntity {
 
-	@Id
-	private String idH;
-	
-	private String idCli;
-	
+
+
 	private String namH;
 	private String lastNamH;
 	private String dniH;
 	
 	private String profile;
 	
-	public String getIdH() {
-		return idH;
-	}
-	public void setIdH(String idH) {
-		this.idH = idH;
-	}
-	public String getIdCli() {
-		return idCli;
-	}
-	public void setIdCli(String idCli) {
-		this.idCli = idCli;
-	}
+
+	
 	public String getNamH() {
 		return namH;
 	}
