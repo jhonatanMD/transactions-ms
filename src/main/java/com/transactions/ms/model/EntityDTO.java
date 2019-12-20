@@ -11,7 +11,7 @@ public class EntityDTO {
 	private List<EntityCreditCard> creditCardEntity;
 	private List<EntityCreditPersonal> creditPersonalEntity;
 	private List<EntityBusinessCredit> businessCreditEntity;
-	
+	private List<CommissionEntity> commissionEntities;
 	
 	
 	
@@ -52,6 +52,12 @@ public class EntityDTO {
 	}
 	public void setBusinessCreditEntity(List<EntityBusinessCredit> businessCreditEntity) {
 		this.businessCreditEntity = businessCreditEntity;
+	}
+	public List<CommissionEntity> getCommissionEntities() {
+		return commissionEntities;
+	}
+	public void setCommissionEntities(List<CommissionEntity> commissionEntities) {
+		this.commissionEntities = commissionEntities;
 	}
 
 	

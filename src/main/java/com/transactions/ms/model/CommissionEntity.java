@@ -1,18 +1,32 @@
 package com.transactions.ms.model;
 
-import java.util.List;
+import java.util.Date;
 
 public class CommissionEntity {
 	
-	List<EntityTransaction> commissions;
-
-	public List<EntityTransaction> getCommissions() {
-		return commissions;
+	private String numAcc;
+	private Double commi;
+	private Date   dateTra;
+	
+	public String getNumAcc() {
+		return numAcc;
 	}
-
-	public void setCommissions(List<EntityTransaction> commissions) {
-		this.commissions = commissions;
+	public void setNumAcc(String numAcc) {
+		this.numAcc = numAcc;
 	}
-
+	public Double getCommi() {
+		return commi;
+	}
+	public void setCommi(Double commi) {
+		this.commi = commi;
+	}
+	public Date getDateTra() {
+		return dateTra;
+	}
+	public void setDateTra(Date dateTra) {
+		this.dateTra = dateTra;
+	}
+	
+	
 }
 

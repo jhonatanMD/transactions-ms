@@ -1,10 +1,9 @@
 package com.transactions.ms.webclient;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.transactions.ms.model.CommissionEntity;
@@ -17,11 +16,12 @@ import com.transactions.ms.model.EntityTransaction;
 import com.transactions.ms.model.FixedTermEntity;
 import com.transactions.ms.model.SavingEntity;
 
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
+@Component
+@Qualifier("webClient")
 public class CallWebClient {
+	
 	
 	  WebClient client = WebClient.builder().baseUrl("http://localhost:8881")
 			  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
@@ -29,45 +29,57 @@ public class CallWebClient {
 	  EntityDTO dto;
 	  CommissionEntity commission;
 
-	   public Mono<SavingEntity> getSaving(String dniC , String type,Double cash){
+	   public Mono<EntityTransaction> getSaving(String numAcc , String type,Double cash){
 		  
-		return  client.post().uri("/saving-account/api/updTransancionSaving/"+dniC+"/"+type+"/"+cash)
-			.retrieve().bodyToMono(SavingEntity.class);	
+		return  client.post().uri("/saving-account/api/updTransancionSaving/"+numAcc+"/"+type+"/"+cash)
+			.retrieve().bodyToMono(EntityTransaction.class);	
 	  }
 	  
-	  public Mono<CurrentEntity> getCurrent(String dniC , String type,Double cash){
+	  public Mono<EntityTransaction> getCurrent(String numAcc , String type,Double cash){
 		  
-			return  client.post().uri("/current-account/api/updTransancionesCurrent/"+dniC+"/"+type+"/"+cash)
-				.retrieve().bodyToMono(CurrentEntity.class);	
+			return  client.post().uri("/current-account/api/updTransancionesCurrent/"+numAcc+"/"+type+"/"+cash)
+				.retrieve().bodyToMono(EntityTransaction.class);	
 		  }
 	  
-	  public Mono<EntityBusinessCredit> getBusinessCredit(String dniC , String type,Double cash){
+	  public Mono<EntityBusinessCredit> getBusinessCredit(String numAcc , String type,Double cash){
 		  
-			return  client.post().uri("/business-credit/api/updTransancionesBusinessCredit/"+dniC+"/"+type+"/"+cash)
+			return  client.post().uri("/business-credit/api/updTransancionesBusinessCredit/"+numAcc+"/"+type+"/"+cash)
 				.retrieve().bodyToMono(EntityBusinessCredit.class);	
 		  }
 	  
-	  public Mono<EntityCreditCard> getCreditCard(String dniC , String type,Double cash){
+	  public Mono<EntityTransaction> getCreditCard(String numAcc , String type,Double cash){
 		  
-			return  client.post().uri("/credit-card/api/updTransancionesCreditCard/"+dniC+"/"+type+"/"+cash)
-				.retrieve().bodyToMono(EntityCreditCard.class);	
+			return  client.post().uri("/credit-card/api/updTransancionesCreditCard/"+numAcc+"/"+type+"/"+cash)
+				.retrieve().bodyToMono(EntityTransaction.class);	
 		  }
 	  
-	  public Mono<FixedTermEntity> getFixed(String dniC , String type,Double cash){
+	  public Mono<EntityTransaction> getFixed(String numAcc , String type,Double cash){
 		  
-			return  client.post().uri("/fixed-term/api/updTransancionesFixed/"+dniC+"/"+type+"/"+cash)
-				.retrieve().bodyToMono(FixedTermEntity.class);	
+			return  client.post().uri("/fixed-term/api/updTransancionesFixed/"+numAcc+"/"+type+"/"+cash)
+				.retrieve().bodyToMono(EntityTransaction.class);	
 		  }
 	  
-	  public Mono<EntityCreditPersonal> getCreditPersonal(String dniC , String type,Double cash){
+	  public Mono<EntityCreditPersonal> getCreditPersonal(String numAcc , String type,Double cash){
 		  
-			return  client.post().uri("/personal-credit/api/updTransancionesCreditPersonal/"+dniC+"/"+type+"/"+cash)
+			return  client.post().uri("/personal-credit/api/updTransancionesCreditPersonal/"+numAcc+"/"+type+"/"+cash)
 				.retrieve().bodyToMono(EntityCreditPersonal.class);	
 		  }
 	  
 	  
 	  
 	
+	  public Mono<EntityTransaction> payCardOfSaving(String numAcc , String numCard,Double cash){
+		  
+			return  client.post().uri("/saving-account/api/payCreditCard/"+numAcc+"/"+numCard+"/"+cash)
+				.retrieve().bodyToMono(EntityTransaction.class);	
+		  }
+	  
+	  public Mono<EntityTransaction> payCardOfCurrent(String numAcc , String numCard,Double cash){
+		  
+			return  client.post().uri("/credit-cardt/api/payCreditCard/"+numAcc+"/"+numCard+"/"+cash)
+				.retrieve().bodyToMono(EntityTransaction.class);	
+		  }
+	  
 	  public Mono<EntityDTO> getProductosByNumDoc(String numDoc){
 		  
 		  dto = new EntityDTO();
@@ -129,7 +141,8 @@ public class CallWebClient {
 		  }
 	  
 	  
-	  
+	
+	  /*
 	  public Mono<CommissionEntity> getCommissions(String from , String until ){
 		  
 		  commission = new CommissionEntity();
@@ -138,6 +151,6 @@ public class CallWebClient {
 					commission.setCommissions(card);
 					return Mono.just(commission);
 					});
-	  }
+	  }*/
 	  
 }
