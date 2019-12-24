@@ -65,7 +65,7 @@ public class TransactionServiceImpl implements ITransactionService {
 
 
 	@Override
-	public Mono<EntityTransaction> payCardCredit(String numAcc, String numCard, String typeAcc, Double cash) {
+	public Mono<EntityTransaction> opeMovement(String numAcc, String numCard, String typeAcc, Double cash) {
 		// TODO Auto-generated method stub
 		if(typeAcc.equals("SA")) {
 		return	callWeb.payCardOfSaving(numAcc, numCard, cash).flatMap(paySv->{

@@ -68,6 +68,7 @@ public class CallWebClient {
 	  
 	  
 	
+	  
 	  public Mono<EntityTransaction> payCardOfSaving(String numAcc , String numCard,Double cash){
 		  
 			return  client.post().uri("/saving-account/api/payCreditCard/"+numAcc+"/"+numCard+"/"+cash)
@@ -79,6 +80,9 @@ public class CallWebClient {
 			return  client.post().uri("/credit-cardt/api/payCreditCard/"+numAcc+"/"+numCard+"/"+cash)
 				.retrieve().bodyToMono(EntityTransaction.class);	
 		  }
+	  
+	  
+
 	  
 	  public Mono<EntityDTO> getProductosByNumDoc(String numDoc){
 		  

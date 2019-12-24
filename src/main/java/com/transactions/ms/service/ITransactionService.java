@@ -10,7 +10,7 @@ public interface ITransactionService {
 	
 	Flux<EntityTransaction> allTransactions();
 
-	Mono<EntityTransaction> payCardCredit(String numAcc,String numCard,String typeAcc,Double cash);
+	Mono<EntityTransaction> opeMovement(String numAcc,String numCard,String typeAcc,Double cash);
 	Mono<EntityTransaction> updTransaction(EntityTransaction transaction);
 	Mono<Void> dltTransaction(String id);
 	Flux<EntityTransaction> transacctionNumC(String numC);

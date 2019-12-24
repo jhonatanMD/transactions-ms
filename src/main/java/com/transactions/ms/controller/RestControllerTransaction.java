@@ -83,12 +83,12 @@ public class RestControllerTransaction {
 	
 	*/
 	
-	@PostMapping("/payCreditCard/{numAccount}/{numCard}/{typeAccount}/{cash}")
-	Mono<EntityTransaction> payCreditCard(@PathVariable("numAccount") String numAccount,
-			@PathVariable("numCard") String numCard,
-			@PathVariable("typeAccount") String typeAccount,
+	@PostMapping("/opeMovement/{numAccount}/{numCard}/{typeAccount}/{cash}")
+	Mono<EntityTransaction> opeMovement(@PathVariable("numAccount") String numAccount,
+			@PathVariable("numDest") String numDest,
+			@PathVariable("type") String type,
 			@PathVariable("cash") Double cash){
-		return impl.payCardCredit(numAccount, numCard, typeAccount, cash);
+		return impl.opeMovement(numAccount, numDest, type, cash);
 	}
 	
 	
