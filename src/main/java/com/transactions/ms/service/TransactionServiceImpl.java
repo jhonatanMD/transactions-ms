@@ -61,24 +61,19 @@ public class TransactionServiceImpl implements ITransactionService {
 		// TODO Auto-generated method stub
 		return callWeb.getProductosByNumDoc(numDoc);
 	}
-
-
-
+	
 	@Override
-	public Mono<EntityTransaction> opeMovement(String numAcc, String numCard, String typeAcc, Double cash) {
-		// TODO Auto-generated method stub
-		if(typeAcc.equals("SA")) {
-		return	callWeb.payCardOfSaving(numAcc, numCard, cash).flatMap(paySv->{
+	public Mono<EntityTransaction> opeMovementSaving(String numAcc, String numDest, Double cash,String type) {
+		/*
+		 * SA -> Transaction entre cuentas de ahorro
+		 * CC -> Pago de cuenta a tarjeta de credito
+		 * CA -> Transaction a cuenta corriente 
+		 * */
+		
+		return	callWeb.opeMovementSaving(numAcc, numDest, cash, type).flatMap(paySv->{
 				return repository.save(paySv);
 			});
-		}
-		else if(typeAcc.equals("CA")){
-			return	callWeb.payCardOfCurrent(numAcc, numCard, cash).flatMap(payCur->{
-				return repository.save(payCur);
-			});
-		}else {
-			return null;
-		}
+		
 	}
 
 	@Override
@@ -139,5 +134,19 @@ public class TransactionServiceImpl implements ITransactionService {
 			 return Mono.just(transaction);
 		}
 		
+	}
+
+	@Override
+	public Mono<EntityTransaction> opeMovementCurrent(String numAcc, String numDest, Double cash, String type) {
+
+		/*
+		 * CA -> Transaction entre cuentas corrientes
+		 * CC -> Pago de cuenta a tarjeta de credito
+		 * SA -> Transaction a cuenta de ahorro 
+		 * */
+		
+		return callWeb.opeMovementCurrent(numAcc, numDest, cash, type).flatMap(current ->{
+			return repository.save(current);
+		});
 	}
 }

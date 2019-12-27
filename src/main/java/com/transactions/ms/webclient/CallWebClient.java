@@ -69,18 +69,25 @@ public class CallWebClient {
 	  
 	
 	  
-	  public Mono<EntityTransaction> payCardOfSaving(String numAcc , String numCard,Double cash){
+	/*  public Mono<EntityTransaction> payCardOfSaving(String numAcc , String numCard,Double cash){
 		  
 			return  client.post().uri("/saving-account/api/payCreditCard/"+numAcc+"/"+numCard+"/"+cash)
 				.retrieve().bodyToMono(EntityTransaction.class);	
-		  }
+		  }*/
 	  
-	  public Mono<EntityTransaction> payCardOfCurrent(String numAcc , String numCard,Double cash){
+	  public Mono<EntityTransaction> opeMovementCurrent(String numAcc , String numDest,Double cash,String type){
 		  
-			return  client.post().uri("/credit-cardt/api/payCreditCard/"+numAcc+"/"+numCard+"/"+cash)
+			return  client.post().uri("/current-account/api/opeMovement/"+numAcc+"/"+numDest+"/"+cash+"/"+type)
 				.retrieve().bodyToMono(EntityTransaction.class);	
 		  }
 	  
+/*Movimientos de Cuenta de Ahorros*/
+	  
+	  public Mono<EntityTransaction> opeMovementSaving(String numAcc , String numDest,Double cash,String type){
+		  
+			return  client.post().uri("/saving-account/api/opeMovementSaving/"+numAcc+"/"+numDest+"/"+cash+"/"+type)
+				.retrieve().bodyToMono(EntityTransaction.class);	
+		  }
 	  
 
 	  
@@ -144,9 +151,12 @@ public class CallWebClient {
 				.retrieve().bodyToMono(EntityCreditPersonal.class);	
 		  }
 	  
-	  
+	  /*  public Mono<EntityCreditCard> getCreditCard(){
+		  return  client.get().uri("/credit-card/api/getCreditCarNumAcc/89898989898982")
+					.retrieve().bodyToMono(EntityCreditCard.class);
+	  }
 	
-	  /*
+	 
 	  public Mono<CommissionEntity> getCommissions(String from , String until ){
 		  
 		  commission = new CommissionEntity();

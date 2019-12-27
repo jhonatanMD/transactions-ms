@@ -1,8 +1,10 @@
 package com.transactions.ms.model;
 
+import java.util.List;
+
 public class EntityCreditCard {
 
-
+	
 	private String codCur;
 	
 	private String numCard;
@@ -11,7 +13,15 @@ public class EntityCreditCard {
 	
 	private Double cashLimit;
 	
+	private Double cashPay;
+	
+	private int cuotas;
+	
+	private List<String> datesPay;
+	
 	private HeadLineEntity  customer;
+	
+	private String status;
 
 	public String getCodCur() {
 		return codCur;
@@ -51,6 +61,38 @@ public class EntityCreditCard {
 
 	public void setCustomer(HeadLineEntity customer) {
 		this.customer = customer;
+	}
+
+	public Double getCashPay() {
+		return cashPay;
+	}
+
+	public void setCashPay(Double cashPay) {
+		this.cashPay = cashPay;
+	}
+
+	public int getCuotas() {
+		return cuotas;
+	}
+
+	public void setCuotas(int cuotas) {
+		this.cuotas = cuotas;
+	}
+
+	public List<String> getDatesPay() {
+		return datesPay;
+	}
+
+	public void setDatesPay(List<String> datesPay) {
+		this.datesPay = datesPay;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 

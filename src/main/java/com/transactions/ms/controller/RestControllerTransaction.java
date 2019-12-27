@@ -43,7 +43,6 @@ public class RestControllerTransaction {
 	@PostMapping("/transactions/{num}/{type}/{cash}/{account}")
 	Mono<EntityTransaction> transactionSaving(@PathVariable("num") String num ,@PathVariable("type") String type,@PathVariable("cash") Double cash
 			,@PathVariable("account") String account){
-
 		transaction = new EntityTransaction();
 		transaction.setNumAcc(num);
 		transaction.setType(type);
@@ -83,12 +82,21 @@ public class RestControllerTransaction {
 	
 	*/
 	
-	@PostMapping("/opeMovement/{numAccount}/{numCard}/{typeAccount}/{cash}")
-	Mono<EntityTransaction> opeMovement(@PathVariable("numAccount") String numAccount,
+	@PostMapping("/opeMovementSaving/{numAcc}/{numDest}/{typeAccount}/{cash}")
+	Mono<EntityTransaction> opeMovementSaving(@PathVariable("numAcc") String numAcc,
 			@PathVariable("numDest") String numDest,
-			@PathVariable("type") String type,
+			@PathVariable("typeAccount") String type,
 			@PathVariable("cash") Double cash){
-		return impl.opeMovement(numAccount, numDest, type, cash);
+		return impl.opeMovementSaving(numAcc, numDest, cash, type);
+	}
+	
+	
+	@PostMapping("/opeMovementCurrent/{numAcc}/{numDest}/{typeAccount}/{cash}")
+	Mono<EntityTransaction> opeMovementCurrent(@PathVariable("numAcc") String numAcc,
+			@PathVariable("numDest") String numDest,
+			@PathVariable("typeAccount") String type,
+			@PathVariable("cash") Double cash){
+		return impl.opeMovementCurrent(numAcc, numDest, cash, type);
 	}
 	
 	
